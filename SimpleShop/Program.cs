@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleShop.Context;
 using SimpleShop.DTO;
@@ -16,6 +18,37 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.MapPost("/Client",
+    (IClientServices clientServices, [FromBody] ClientAddRequest clientAddRequest) =>
+    {
+        clientServices.AddClientAsync(clientAddRequest);
+        return Results.Ok();
+    });
+
+app.MapGet("/Client", (IClientServices clientServices, [FromHeader] string dni) =>
+{
+    var client = clientServices.GetClientAsync(dni);
+    Results.Ok(client);
+});
+
+app.MapPut("/Client",
+    (IClientServices clientServices, [FromHeader] Guid id, [FromBody] ClientUpdateRequest clientUpdateRequest) =>
+    {
+        var client = clientServices.UpdateClientAsync(clientUpdateRequest);
+        Results.Ok(client);
+    });
+app.MapPost("/Item",
+    (IItemsServices itemsServices, [FromBody] List<ItemAddRequest> itemAddRequest) =>
+    {
+        itemsServices.AddItemsAsync(itemAddRequest);
+        Results.Ok();
+    });
+app.MapPut("/Item",
+    (IItemsServices itemsServices, [FromHeader] Guid id, [FromBody] ItemUpdateRequest itemUpdateRequest) =>
+    {
+        var item = itemsServices.UpdateItem(id,itemUpdateRequest);
+        Results.Ok(item);
+    });
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
