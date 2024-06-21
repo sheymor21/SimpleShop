@@ -6,5 +6,5 @@ public interface IClientServices
 {
     Task AddClientAsync(ClientAddRequest clientAddRequest);
     Task<ClientGetRequest> GetClientAsync(string dni);
-    Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest);
+    Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest, string dni);
 }

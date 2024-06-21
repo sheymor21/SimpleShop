@@ -19,7 +19,6 @@ public class ClientServices : IClientServices
     {
         Client client = new()
         {
-            ClientId = Guid.NewGuid().ToString(),
             Dni = clientAddRequest.Dni,
             FirstName = clientAddRequest.Dni,
             LastName = clientAddRequest.LastName,
@@ -54,11 +53,11 @@ public class ClientServices : IClientServices
         return clientDto;
     }
 
-    public async Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest)
+    public async Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest, string dni)
     {
         Client oldClient = new()
         {
-            Dni = clientUpdateRequest.Dni,
+            Dni = dni,
             FirstName = clientUpdateRequest.FirstName,
             LastName = clientUpdateRequest.LastName,
             Age = clientUpdateRequest.Age

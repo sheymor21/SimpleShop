@@ -19,7 +19,7 @@ public class ItemRepository : IItemRepository
     public async Task Add(List<Item> items)
     {
         string sql =
-            "INSERT INTO Items (Name,Price,Brand,CreateAt,UpdateAt,ClientId) VALUES (@Name,@Price,@Brand,@CreateAt,@UpdateAt,@ClientId)";
+            "INSERT INTO Items (ItemId,Name,Price,Brand,CreateAt,UpdateAt,ClientId) VALUES (@ItemId,@Name,@Price,@Brand,@CreateAt,@UpdateAt,@ClientId)";
         foreach (var item in items)
         {
             await _db.ExecuteAsync(sql, item);
@@ -31,7 +31,7 @@ public class ItemRepository : IItemRepository
     {
         string sql =
             "DELETE FROM Items WHERE ItemId = @id";
-        await _db.ExecuteAsync(sql, new { id });
+        await _db.ExecuteAsync(sql, new { id = id.ToString() });
         _db.Close();
     }
 
@@ -53,6 +53,15 @@ public class ItemRepository : IItemRepository
         string sqlSelect =
             "SELECT Name,Price,Brand,UpdateAt FROM Items WHERE ItemId = @ItemId";
         var result = await _db.QueryFirstAsync<Item>(sqlSelect,item);
+        _db.Close();
+        return result;
+    }
+    
+    public async Task<bool> AnyById(Guid id)
+    {
+        string sql =
+            "SELECT CASE WHEN EXISTS(SELECT ItemId FROM Items WHERE ItemId=@id) THEN TRUE ELSE FALSE END as existence";
+        bool result = await _db.QueryFirstAsync<bool>(sql, new { id = id.ToString() });
         _db.Close();
         return result;
     }

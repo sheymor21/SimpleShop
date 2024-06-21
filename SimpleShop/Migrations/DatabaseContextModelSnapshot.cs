@@ -20,9 +20,7 @@ namespace SimpleShop.Migrations
             modelBuilder.Entity("SimpleShop.Context.Models.Client", b =>
                 {
                     b.Property<string>("ClientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("09cd19fb-76b7-4be7-9ca1-f9ce36291a2a");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Age")
                         .HasColumnType("INTEGER");
@@ -47,9 +45,7 @@ namespace SimpleShop.Migrations
             modelBuilder.Entity("SimpleShop.Context.Models.Item", b =>
                 {
                     b.Property<string>("ItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("d658e832-e199-437e-ab21-de4cd84c861a");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Brand")
                         .IsRequired()

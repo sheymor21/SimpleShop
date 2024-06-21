@@ -2,7 +2,7 @@
 
 public class Item
 {
-    public string ItemId { get; set; }
+    public string ItemId { get; set; } = Guid.NewGuid().ToString();
     public string Name { get; set; }
     public double Price { get; set; }
     public string Brand { get; set; }

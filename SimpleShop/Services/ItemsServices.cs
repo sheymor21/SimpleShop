@@ -20,7 +20,7 @@ public class ItemsServices : IItemsServices
         List<Item> items = new();
         foreach (var itemDto in itemAddRequests)
         {
-            string clientId = await _clientRepository.GetClientIdByDni(itemDto.ClientDni);
+            string clientId = await _clientRepository.GetIdByDni(itemDto.ClientDni);
             Item item = new()
             {
                 Name = itemDto.Name,

@@ -8,4 +8,5 @@ public interface IItemRepository
     Task Remove(Guid id);
     Task<IEnumerable<Item>> GetByClientDni(string dni);
     Task<Item> Update(Item item);
+    Task<bool> AnyById(Guid id);
 }

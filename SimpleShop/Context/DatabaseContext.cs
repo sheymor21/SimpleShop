@@ -16,18 +16,9 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Client>().HasKey(x => x.ClientId);
-        modelBuilder.Entity<Client>().Property(x => x.ClientId)
-            .ValueGeneratedOnAdd()
-            .HasDefaultValue(Guid.NewGuid().ToString());
-
         modelBuilder.Entity<Client>()
             .Ignore(x => x.FullName);
-
         modelBuilder.Entity<Item>().HasKey(x => x.ItemId);
-        modelBuilder.Entity<Item>().Property(x => x.ItemId)
-            .ValueGeneratedOnAdd()
-            .HasDefaultValue(Guid.NewGuid().ToString());
-
         modelBuilder.Entity<Client>()
             .HasMany(x => x.Items)
             .WithOne(x => x.Client)
