@@ -4,6 +4,7 @@ namespace SimpleShop.Interfaces;
 
 public interface IItemsServices
 {
-    void AddItemsAsync(List<ItemAddRequest> itemAddRequests);
-    ItemGetRequest UpdateItem(Guid id, ItemUpdateRequest itemUpdateRequest);
+    Task AddItemsAsync(List<ItemAddRequest> itemAddRequests);
+    Task RemoveItemAsync(Guid id);
+    Task<ItemGetRequest> UpdateItem(Guid id, ItemUpdateRequest itemUpdateRequest);
 }

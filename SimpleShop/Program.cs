@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleShop.Context;
+using SimpleShop.Context.Repositories;
 using SimpleShop.DTO;
 using SimpleShop.Interfaces;
 using SimpleShop.Services;
@@ -14,40 +14,49 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<DatabaseContext>(options => { options.UseSqlite("Data Source=DatabaseShop.db"); });
 builder.Services.AddScoped<IItemsServices, ItemsServices>();
 builder.Services.AddScoped<IClientServices, ClientServices>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<IItemRepository, ItemRepository>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 app.MapPost("/Client",
-    (IClientServices clientServices, [FromBody] ClientAddRequest clientAddRequest) =>
+    async (IClientServices clientServices, [FromBody] ClientAddRequest clientAddRequest) =>
     {
-        clientServices.AddClientAsync(clientAddRequest);
+        await clientServices.AddClientAsync(clientAddRequest);
         return Results.Ok();
     });
 
-app.MapGet("/Client", (IClientServices clientServices, [FromHeader] string dni) =>
+app.MapGet("/Client", async (IClientServices clientServices, [FromHeader] string dni) =>
 {
-    var client = clientServices.GetClientAsync(dni);
-    Results.Ok(client);
+    var client = await clientServices.GetClientAsync(dni);
+    return Results.Ok(client);
 });
 
 app.MapPut("/Client",
-    (IClientServices clientServices, [FromHeader] Guid id, [FromBody] ClientUpdateRequest clientUpdateRequest) =>
+    async (IClientServices clientServices, [FromHeader] Guid id, [FromBody] ClientUpdateRequest clientUpdateRequest) =>
     {
-        var client = clientServices.UpdateClientAsync(clientUpdateRequest);
-        Results.Ok(client);
+        var client = await clientServices.UpdateClientAsync(clientUpdateRequest);
+        return Results.Ok(client);
     });
 app.MapPost("/Item",
-    (IItemsServices itemsServices, [FromBody] List<ItemAddRequest> itemAddRequest) =>
+    async (IItemsServices itemsServices, [FromBody] List<ItemAddRequest> itemAddRequest) =>
     {
-        itemsServices.AddItemsAsync(itemAddRequest);
-        Results.Ok();
+        await itemsServices.AddItemsAsync(itemAddRequest);
+        return Results.Ok();
+    });
+
+app.MapDelete("/Item",
+    async (IItemsServices itemsServices, [FromHeader] Guid id) =>
+    {
+        await itemsServices.RemoveItemAsync(id);
+        return Results.Ok();
     });
 app.MapPut("/Item",
-    (IItemsServices itemsServices, [FromHeader] Guid id, [FromBody] ItemUpdateRequest itemUpdateRequest) =>
+    async (IItemsServices itemsServices, [FromHeader] Guid id, [FromBody] ItemUpdateRequest itemUpdateRequest) =>
     {
-        var item = itemsServices.UpdateItem(id,itemUpdateRequest);
-        Results.Ok(item);
+        var item = await itemsServices.UpdateItem(id, itemUpdateRequest);
+        return Results.Ok(item);
     });
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

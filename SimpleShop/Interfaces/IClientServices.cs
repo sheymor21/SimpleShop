@@ -4,7 +4,7 @@ namespace SimpleShop.Interfaces;
 
 public interface IClientServices
 {
-    void AddClientAsync(ClientAddRequest clientAddRequest);
-    ClientGetRequest GetClientAsync(string dni);
-    ClientGetRequest UpdateClientAsync(ClientUpdateRequest clientUpdateRequest);
+    Task AddClientAsync(ClientAddRequest clientAddRequest);
+    Task<ClientGetRequest> GetClientAsync(string dni);
+    Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest);
 }
