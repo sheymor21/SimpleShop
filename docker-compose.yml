@@ -1,6 +1,0 @@
-﻿services:
-  simpleshop:
-    image: simpleshop
-    build:
-      context: .
-      dockerfile: SimpleShop/Dockerfile
