@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleShop;
 using SimpleShop.Context;
 using SimpleShop.Context.Repositories;
 using SimpleShop.DTO;
@@ -63,6 +64,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.Migrations();
 }
 
 app.UseHttpsRedirection();
