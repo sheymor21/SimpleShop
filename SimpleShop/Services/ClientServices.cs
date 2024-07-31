@@ -15,61 +15,53 @@ public class ClientServices : IClientServices
         _clientRepository = clientRepository;
     }
 
-    public async Task AddClientAsync(ClientAddRequest clientAddRequest)
+    public async Task AddClientAsync(ClientDto.AddRequest clientAddRequestRequest)
     {
         Client client = new()
         {
-            Dni = clientAddRequest.Dni,
-            FirstName = clientAddRequest.Dni,
-            LastName = clientAddRequest.LastName,
-            Age = clientAddRequest.Age
+            Dni = clientAddRequestRequest.Dni,
+            FirstName = clientAddRequestRequest.Dni,
+            LastName = clientAddRequestRequest.LastName,
+            Age = clientAddRequestRequest.Age
         };
         await _clientRepository.Add(client);
     }
 
-    public async Task<ClientGetRequest> GetClientAsync(string dni)
+    public async Task<ClientDto.GetRequest> GetClientAsync(string dni)
     {
+        List<ItemDto.GetRequest> itemsDto = new();
         var client = await _clientRepository.GetByDni(dni);
-        ClientGetRequest clientDto = new()
-        {
-            Dni = client.Dni,
-            FirstName = client.FirstName,
-            LastName = client.LastName,
-            Age = client.Age
-        };
+
         var items = await _itemRepository.GetByClientDni(dni);
         foreach (var item in items)
         {
-            ItemGetRequest itemDto = new()
-            {
-                Id = Guid.Parse(item.ItemId),
-                Name = item.Name,
-                Price = item.Price,
-                Brand = item.Brand
-            };
-            clientDto.Items.Add(itemDto);
+            ItemDto.GetRequest itemDto = new(Guid.Parse(item.ItemId), item.Name, item.Price, item.Brand);
+            itemsDto.Add(itemDto);
         }
 
+        ClientDto.GetRequest clientDto = new(client.Dni, client.FirstName, client.LastName, client.Age, itemsDto);
         return clientDto;
     }
 
-    public async Task<ClientGetRequest> UpdateClientAsync(ClientUpdateRequest clientUpdateRequest, string dni)
+    public async Task<ClientDto.GetRequestWithoutItem> UpdateClientAsync(
+        ClientDto.UpdateRequest clientUpdateRequestRequest,
+        string dni)
     {
         Client oldClient = new()
         {
             Dni = dni,
-            FirstName = clientUpdateRequest.FirstName,
-            LastName = clientUpdateRequest.LastName,
-            Age = clientUpdateRequest.Age
+            FirstName = clientUpdateRequestRequest.FirstName,
+            LastName = clientUpdateRequestRequest.LastName,
+            Age = clientUpdateRequestRequest.Age
         };
         var client = await _clientRepository.Update(oldClient);
-        ClientGetRequest dto = new()
-        {
-            Dni = client.Dni,
-            FirstName = client.FirstName,
-            LastName = client.LastName,
-            Age = client.Age,
-        };
+
+        ClientDto.GetRequestWithoutItem dto = new(
+            dni,
+            clientUpdateRequestRequest.FirstName,
+            clientUpdateRequestRequest.LastName,
+            clientUpdateRequestRequest.Age
+        );
         return dto;
     }
 }

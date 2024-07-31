@@ -1,15 +1,24 @@
 ﻿namespace SimpleShop.DTO;
 
-public class ItemAddRequest : AItemDto
+public class ItemDto
 {
-    public string ClientDni { get; set; }
-}
+    public record AddRequest(
+        string ClientDni,
+        string Name,
+        double Price,
+        string Brand
+    );
 
-public class ItemGetRequest : AItemDto
-{
-    public Guid Id { get; set; }
-}
+    public record UpdateRequest(
+        string Name,
+        double Price,
+        string Brand
+    );
 
-public class ItemUpdateRequest : AItemDto
-{
+    public record GetRequest(
+        Guid Id,
+        string Name,
+        double Price,
+        string Brand
+    );
 }

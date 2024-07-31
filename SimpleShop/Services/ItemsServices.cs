@@ -15,7 +15,7 @@ public class ItemsServices : IItemsServices
         _clientRepository = clientRepository;
     }
 
-    public async Task AddItemsAsync(List<ItemAddRequest> itemAddRequests)
+    public async Task AddItemsAsync(List<ItemDto.AddRequest> itemAddRequests)
     {
         List<Item> items = new();
         foreach (var itemDto in itemAddRequests)
@@ -41,7 +41,7 @@ public class ItemsServices : IItemsServices
         await _itemRepository.Remove(id);
     }
 
-    public async Task<ItemGetRequest> UpdateItem(Guid id, ItemUpdateRequest itemUpdateRequest)
+    public async Task<ItemDto.GetRequest> UpdateItem(Guid id, ItemDto.UpdateRequest itemUpdateRequest)
     {
         Item newItem = new()
         {
@@ -52,13 +52,12 @@ public class ItemsServices : IItemsServices
             UpdateAt = DateTime.Now,
         };
         var item = await _itemRepository.Update(newItem);
-        ItemGetRequest itemGetRequest = new()
-        {
-            Id = Guid.Parse(item.ItemId),
-            Name = item.Name,
-            Price = item.Price,
-            Brand = item.Brand,
-        };
+        ItemDto.GetRequest itemGetRequest = new(
+            Guid.Parse(item.ItemId),
+            item.Name,
+            item.Price,
+            item.Brand
+        );
         return itemGetRequest;
     }
 }

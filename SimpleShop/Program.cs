@@ -27,7 +27,7 @@ var app = builder.Build();
 
 app.MapPost("/Client",
     async (IClientServices clientServices, IClientValidation clientValidation,
-        [FromBody] ClientAddRequest clientAddRequest) =>
+        [FromBody] ClientDto.AddRequest clientAddRequest) =>
     {
         if (await clientValidation.AnyClientByDni(clientAddRequest.Dni))
         {
@@ -52,7 +52,7 @@ app.MapGet("/Client",
 
 app.MapPut("/Client",
     async (IClientServices clientServices, IClientValidation clientValidation, [FromHeader] string dni,
-        [FromBody] ClientUpdateRequest clientUpdateRequest) =>
+        [FromBody] ClientDto.UpdateRequest clientUpdateRequest) =>
     {
         if (!await clientValidation.AnyClientByDni(dni))
         {
@@ -62,9 +62,10 @@ app.MapPut("/Client",
         var client = await clientServices.UpdateClientAsync(clientUpdateRequest, dni);
         return Results.Ok(client);
     });
+
 app.MapPost("/Item",
     async (IClientValidation clientValidation, IItemsServices itemsServices,
-        [FromBody] List<ItemAddRequest> itemAddRequest) =>
+        [FromBody] List<ItemDto.AddRequest> itemAddRequest) =>
     {
         foreach (var item in itemAddRequest.Select(x => x.ClientDni))
         {
@@ -91,7 +92,7 @@ app.MapDelete("/Item",
     });
 app.MapPut("/Item",
     async (IItemsServices itemsServices, IItemValidations itemValidations, [FromHeader] Guid id,
-        [FromBody] ItemUpdateRequest itemUpdateRequest) =>
+        [FromBody] ItemDto.UpdateRequest itemUpdateRequest) =>
     {
         if (!await itemValidations.AnyById(id))
         {
