@@ -21,7 +21,10 @@ builder.Services.AddScoped<IClientValidation, ClientValidations>();
 builder.Services.AddScoped<IItemValidations, ItemValidation>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
 builder.Services.AddTransient<IItemRepository, ItemRepository>();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomSchemaIds(type => type.FullName);
+});
 
 var app = builder.Build();
 
