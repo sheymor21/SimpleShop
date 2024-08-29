@@ -5,12 +5,12 @@ namespace SimpleShop.Interfaces;
 
 public interface IClientRepository
 {
-    Task Add(Client client);
-    Task<Client> Find(Guid id);
-    Task<Client> Update(Client client);
-    Task Remove(string dni);
-    Task<Client> GetByDni(string dni);
-    Task<bool> AnyByDni(string dni);
-    Task<bool> AnyById(Guid id);
-    Task<string> GetIdByDni(string dni);
+    Task AddAsync(Client client);
+    Task<Client> FindAsync(Guid id);
+    Task<Client> UpdateAsync(Client client);
+    Task RemoveAsync(string dni);
+    Task<Client> GetByDniAsync(string dni);
+    Task<bool> AnyByDniAsync(string dni);
+    Task<bool> AnyByIdAsync(Guid id);
+    Task<string> GetIdByDniAsync(string dni);
 }

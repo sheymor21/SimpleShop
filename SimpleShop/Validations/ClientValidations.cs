@@ -13,13 +13,13 @@ public class ClientValidations : IClientValidation
 
     public async Task<bool> AnyClientByDni(string dni)
     {
-        var result = await _clientRepository.AnyByDni(dni);
+        var result = await _clientRepository.AnyByDniAsync(dni);
         return result;
     }
     
     public async Task<bool> AnyClientById(Guid id)
     {
-        var result = await _clientRepository.AnyById(id);
+        var result = await _clientRepository.AnyByIdAsync(id);
         return result;
     }
 }

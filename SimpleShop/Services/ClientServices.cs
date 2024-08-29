@@ -24,13 +24,13 @@ public class ClientServices : IClientServices
             LastName = clientAddRequestRequest.LastName,
             Age = clientAddRequestRequest.Age
         };
-        await _clientRepository.Add(client);
+        await _clientRepository.AddAsync(client);
     }
 
     public async Task<ClientDto.GetRequest> GetClientAsync(string dni)
     {
         List<ItemDto.GetRequest> itemsDto = new();
-        var client = await _clientRepository.GetByDni(dni);
+        var client = await _clientRepository.GetByDniAsync(dni);
 
         var items = await _itemRepository.GetByClientDni(dni);
         foreach (var item in items)
@@ -54,7 +54,7 @@ public class ClientServices : IClientServices
             LastName = clientUpdateRequestRequest.LastName,
             Age = clientUpdateRequestRequest.Age
         };
-        var client = await _clientRepository.Update(oldClient);
+        var client = await _clientRepository.UpdateAsync(oldClient);
 
         ClientDto.GetRequestWithoutItem dto = new(
             dni,

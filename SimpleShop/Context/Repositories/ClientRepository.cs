@@ -16,7 +16,7 @@ public class ClientRepository : IClientRepository
         _db.Open();
     }
 
-    public async Task Add(Client client)
+    public async Task AddAsync(Client client)
     {
         string sql =
             "INSERT INTO Clients (ClientId,Dni,FirstName,LastName,Age) VALUES(@ClientId,@Dni,@FirstName,@LastName,@Age)";
@@ -24,7 +24,7 @@ public class ClientRepository : IClientRepository
         _db.Close();
     }
 
-    public async Task<Client> Find(Guid id)
+    public async Task<Client> FindAsync(Guid id)
     {
         string sql =
             "SELECT * FROM Clients WHERE ClientId = @id";
@@ -32,7 +32,7 @@ public class ClientRepository : IClientRepository
         return result;
     }
 
-    public async Task<Client> Update(Client client)
+    public async Task<Client> UpdateAsync(Client client)
     {
         string sqlUpdate =
             "UPDATE Clients SET FirstName = @FirstName, LastName = @LastName, Age = @Age WHERE Dni = @Dni";
@@ -45,7 +45,7 @@ public class ClientRepository : IClientRepository
         return result;
     }
 
-    public async Task Remove(string dni)
+    public async Task RemoveAsync(string dni)
     {
         string sql =
             "DELETE FROM Clients WHERE Dni = @dni";
@@ -53,7 +53,7 @@ public class ClientRepository : IClientRepository
         _db.Close();
     }
 
-    public async Task<string> GetIdByDni(string dni)
+    public async Task<string> GetIdByDniAsync(string dni)
     {
         string sql =
             $"SELECT ClientId FROM Clients WHERE Dni = @dni";
@@ -62,7 +62,7 @@ public class ClientRepository : IClientRepository
         return result;
     }
 
-    public async Task<Client> GetByDni(string dni)
+    public async Task<Client> GetByDniAsync(string dni)
     {
         string sql =
             $"SELECT * FROM Clients WHERE Dni = @dni";
@@ -72,7 +72,7 @@ public class ClientRepository : IClientRepository
     }
 
 
-    public async Task<bool> AnyByDni(string dni)
+    public async Task<bool> AnyByDniAsync(string dni)
     {
         string sql =
             "SELECT CASE WHEN EXISTS(SELECT Dni FROM Clients WHERE Dni=@dni) THEN TRUE ELSE FALSE END as existence";
@@ -82,7 +82,7 @@ public class ClientRepository : IClientRepository
         return result;
     }
 
-    public async Task<bool> AnyById(Guid id)
+    public async Task<bool> AnyByIdAsync(Guid id)
     {
         string sql =
             "SELECT CASE WHEN EXISTS(SELECT ClientId FROM Clients WHERE ClientId=@id) THEN TRUE ELSE FALSE END as existence";
