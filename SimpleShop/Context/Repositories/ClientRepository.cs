@@ -12,7 +12,7 @@ public class ClientRepository : IClientRepository
 
     public ClientRepository()
     {
-        _db = new SqliteConnection("Data Source=DatabaseShop.db");
+        _db = new SqliteConnection(DbConnection.GetConnection());
         _db.Open();
     }
 
