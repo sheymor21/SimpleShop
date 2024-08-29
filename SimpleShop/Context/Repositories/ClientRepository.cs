@@ -24,7 +24,7 @@ public class ClientRepository : IClientRepository
         _db.Close();
     }
 
-    public async Task<Client> FindAsync(Guid id)
+    public async Task<Client> FindAsync(string id)
     {
         string sql =
             "SELECT * FROM Clients WHERE ClientId = @id";
@@ -82,7 +82,7 @@ public class ClientRepository : IClientRepository
         return result;
     }
 
-    public async Task<bool> AnyByIdAsync(Guid id)
+    public async Task<bool> AnyByIdAsync(string id)
     {
         string sql =
             "SELECT CASE WHEN EXISTS(SELECT ClientId FROM Clients WHERE ClientId=@id) THEN TRUE ELSE FALSE END as existence";
