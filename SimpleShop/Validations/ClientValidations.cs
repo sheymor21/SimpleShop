@@ -17,7 +17,7 @@ public class ClientValidations : IClientValidation
         return result;
     }
     
-    public async Task<bool> AnyClientById(Guid id)
+    public async Task<bool> AnyClientById(string id)
     {
         var result = await _clientRepository.AnyByIdAsync(id);
         return result;

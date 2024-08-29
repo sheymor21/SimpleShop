@@ -3,5 +3,5 @@
 public interface IClientValidation
 {
     Task<bool> AnyClientByDni(string dni);
-    Task<bool> AnyClientById(Guid id);
+    Task<bool> AnyClientById(string id);
 }
